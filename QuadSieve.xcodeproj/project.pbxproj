@@ -23,6 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CF39015E1A33A48A00292E17 /* primes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = primes.txt; sourceTree = "<group>"; };
 		CFF6E1731A2E91FB00B6CDBE /* QuadSieve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QuadSieve; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFF6E1761A2E91FB00B6CDBE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,6 +58,7 @@
 		CFF6E1751A2E91FB00B6CDBE /* QuadSieve */ = {
 			isa = PBXGroup;
 			children = (
+				CF39015E1A33A48A00292E17 /* primes.txt */,
 				CFF6E1761A2E91FB00B6CDBE /* main.cpp */,
 			);
 			path = QuadSieve;
@@ -202,6 +204,7 @@
 		CFF6E17B1A2E91FB00B6CDBE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "./**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -209,6 +212,7 @@
 		CFF6E17C1A2E91FB00B6CDBE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "./**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -232,6 +236,7 @@
 				CFF6E17C1A2E91FB00B6CDBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
