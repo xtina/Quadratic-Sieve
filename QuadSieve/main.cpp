@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <list>
 #include <vector>
 #include <math.h>
 using namespace std;
@@ -15,6 +16,7 @@ using namespace std;
 struct tonelli_pair {
     long long r;
     long long p_r;
+    long long prime;
 };
 
 long mod(unsigned long long a, unsigned long long b){
@@ -119,6 +121,8 @@ tonelli_pair tonelli(long long a, long long p){
         pair.p_r += p;
     }
     
+    pair.prime = p;
+    
     return pair;
 }
 
@@ -130,6 +134,16 @@ void loadPrimes(long *primes){
     while (infile >> prime) {
         primes[i++]=prime;
     }
+    infile.close();
+}
+
+void print(vector<vector<long>> gaussian){
+    for(int i=0; i < gaussian.size(); i++){
+        for(int j=0; j < gaussian[0].size(); j++){
+            cout << gaussian[j][i] << " ";
+        }
+        cout << endl;
+    }
 }
 
 
@@ -137,35 +151,65 @@ int main(int argc, const char * argv[]) {
     
     long long n = 13592675504123;
     long primes[18383];
-    vector<long> quadPrimes; //primes that are quad res of my prime
+    list<long> quadPrimes; //primes that are quad res of my prime
     vector<tonelli_pair> tonelliNums;
    
-    int M = 10000;
+    long M;
     tonelli_pair temp;
     long long sr;
     
     loadPrimes(primes);
     
     //find quad res n mod p
-    for(int i=0; i < 18383; i++){
+    for(int i=1; i < 18383; i++){
         if(jacobi(n,primes[i])==1){
             quadPrimes.push_back(primes[i]);
         }
     }
     
     //find tonelli pairs w.r.t. n mod p
-    for(int j=1; j < quadPrimes.size(); j++){ //j starts at 1 to skip prime 2
-        temp = tonelli(n, quadPrimes[j]);
+    for(list<long>::const_iterator
+        iterator = quadPrimes.begin(),
+        end = quadPrimes.end();
+        iterator != end; ++iterator){ //j starts at 1 to skip prime 2
+        temp = tonelli(n, *iterator);
         tonelliNums.push_back(temp);
+        //cout << "(" << temp.r << ", " << temp.p_r << ", " << temp.prime << ") ";
     }
-     vector<vector<long>> gaussian;
-    gaussian.resize(quadPrimes.size(), vector<long>(2*M, 0));
-    //sr = floor(sqrt(13592675504123)) - M;
+    long long x;
     
-    cout << gaussian[1][1];
-    for(int k=0; k < 2*M; k++) {
-        
+    //vector<vector<long>> gaussian;
+    long **gaussian;
+    gaussian = new long*[2*M];
+    for(int i = 0; i < 2*M; ++i) {
+        gaussian[i] = new long[quadPrimes.size()];
     }
+    for(int m=0; m < 2*M; m++)
+        for(int n=0; n < quadPrimes.size(); n++)
+            gaussian[m][n] = 0;
+    //gaussian.resize(quadPrimes.size(), vector<long>(2*M, 3)); //i is row, j is col
+    sr = floor(sqrt(13592675504123));
+    M=quadPrimes.size();
+    
+    for(int k=0; k < 2*M; k++) {
+        for(int l=0; l < tonelliNums.size(); l++){
+            x=mod(power(sr-M+k+1, 2)-n, tonelliNums[l].prime);
+            //sieve_temp = mod(x,tonelliNums[l].prime);
+            if (x < 0)
+                cout << x << " " ;
+            if(x == tonelliNums[l].r) {
+                gaussian[l][k] = floor(0.5+log(tonelliNums[l].prime));
+                break;
+            }
+            if(x == tonelliNums[l].p_r) {
+                gaussian[l][k] = floor(0.5+log(tonelliNums[l].prime));
+                break;
+            }
+        }
+    }
+    
+    
+    
     
     return 0;
 }
