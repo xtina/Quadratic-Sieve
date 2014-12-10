@@ -24,8 +24,9 @@
 
 /* Begin PBXFileReference section */
 		CF39015E1A33A48A00292E17 /* primes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = primes.txt; sourceTree = "<group>"; };
+		CFBA56AC1A37CED3009F012F /* snippets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snippets; sourceTree = "<group>"; };
 		CFF6E1731A2E91FB00B6CDBE /* QuadSieve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QuadSieve; sourceTree = BUILT_PRODUCTS_DIR; };
-		CFF6E1761A2E91FB00B6CDBE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CFF6E1761A2E91FB00B6CDBE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +61,7 @@
 			children = (
 				CF39015E1A33A48A00292E17 /* primes.txt */,
 				CFF6E1761A2E91FB00B6CDBE /* main.cpp */,
+				CFBA56AC1A37CED3009F012F /* snippets */,
 			);
 			path = QuadSieve;
 			sourceTree = "<group>";

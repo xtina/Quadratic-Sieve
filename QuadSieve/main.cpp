@@ -137,12 +137,43 @@ void loadPrimes(long *primes){
     infile.close();
 }
 
-void print(vector<vector<long>> gaussian){
-    for(int i=0; i < gaussian.size(); i++){
-        for(int j=0; j < gaussian[0].size(); j++){
-            cout << gaussian[j][i] << " ";
+long ** createMatrix(long rows, long cols) {
+    long **mat;
+    mat = new long*[rows];
+    for(int i = 0; i < rows; ++i) {
+        mat[i] = new long[cols];
+    }
+    return mat;
+}
+
+void initialize(long ** mat, long rows, long cols) {
+    for(int m=0; m < rows; m++)
+        for(int n=0; n < cols; n++) {
+            mat[m][n] = 0;
         }
-        cout << endl;
+}
+
+void destroyMatrix(long **matrix, long size) {
+    for(int i=0; i < size; i++)
+        delete [] matrix[i];
+    delete [] matrix;
+}
+
+void print(long ** matrix, long rows, long cols){
+    ofstream out;
+    out.open("trial-division-matrix.txt");
+    for(int i=0; i < rows; i++){
+        for(int j=0; j < cols; j++){
+            out << matrix[i][j] << " ";
+        }
+        out << endl;
+    }
+    out.close();
+}
+
+void print(vector<long long> matrix, long rows){
+    for(int i=0; i < rows; i++) {
+            cout << matrix[i] << " ";
     }
 }
 
@@ -154,7 +185,7 @@ int main(int argc, const char * argv[]) {
     list<long> quadPrimes; //primes that are quad res of my prime
     vector<tonelli_pair> tonelliNums;
    
-    long M;
+    long M=10000;
     tonelli_pair temp;
     long long sr;
     
@@ -171,44 +202,72 @@ int main(int argc, const char * argv[]) {
     for(list<long>::const_iterator
         iterator = quadPrimes.begin(),
         end = quadPrimes.end();
-        iterator != end; ++iterator){ //j starts at 1 to skip prime 2
+        iterator != end; ++iterator)
+    { //j starts at 1 to skip prime 2
         temp = tonelli(n, *iterator);
         tonelliNums.push_back(temp);
         //cout << "(" << temp.r << ", " << temp.p_r << ", " << temp.prime << ") ";
     }
-    long long x;
+
     
-    //vector<vector<long>> gaussian;
+    long long x;
     long **gaussian;
-    gaussian = new long*[2*M];
-    for(int i = 0; i < 2*M; ++i) {
-        gaussian[i] = new long[quadPrimes.size()];
-    }
-    for(int m=0; m < 2*M; m++)
-        for(int n=0; n < quadPrimes.size(); n++)
-            gaussian[m][n] = 0;
+    long tonelliNumsSize = tonelliNums.size();
+    gaussian = createMatrix(2*M, tonelliNumsSize);
+    initialize(gaussian, 2*M, tonelliNumsSize);
+    
     //gaussian.resize(quadPrimes.size(), vector<long>(2*M, 3)); //i is row, j is col
     sr = floor(sqrt(13592675504123));
     M=quadPrimes.size();
     
     for(int k=0; k < 2*M; k++) {
         for(int l=0; l < tonelliNums.size(); l++){
-            x=mod(power(sr-M+k+1, 2)-n, tonelliNums[l].prime);
+            x=power(sr-M+k+1, 2)-n;
             //sieve_temp = mod(x,tonelliNums[l].prime);
-            if (x < 0)
-                cout << x << " " ;
-            if(x == tonelliNums[l].r) {
-                gaussian[l][k] = floor(0.5+log(tonelliNums[l].prime));
-                break;
+            if((x-tonelliNums[l].r)/tonelliNums[l].prime == 0) {
+                gaussian[k][l] += floor(0.5+log(tonelliNums[l].prime));
             }
-            if(x == tonelliNums[l].p_r) {
-                gaussian[l][k] = floor(0.5+log(tonelliNums[l].prime));
-                break;
+            if((x-tonelliNums[l].p_r)/tonelliNums[l].prime == 0) {
+                gaussian[l][k] += floor(0.5+log(tonelliNums[l].prime));
             }
         }
     }
     
+    //find rows with value > .5*log(n)+log(M) - TlogB
+    long long temp_gaussian=0;
+    vector<long long> trial_division;
+    for(int m=0; m < 2*M; m++){
+        for(int n=0; n < tonelliNumsSize; n++) {
+            temp_gaussian += gaussian[m][n];
+        }
+        if(temp_gaussian >= (.5*log(n)+log(M)-1.5*log(tonelliNumsSize))){
+            trial_division.push_back(power(sr-M+m+1, 2)-n);
+        }
+        temp_gaussian=0;
+    }
+    //print(trial_division, trial_division.size());
     
+    //trial division
+    long ** exponent = createMatrix(trial_division.size(), tonelliNumsSize);
+    initialize(exponent, trial_division.size(), tonelliNumsSize);
+    for(int v=0; v < trial_division.size(); v++) {
+        for(int b=0; b < tonelliNumsSize && trial_division[v] != 0; b++){
+            while(mod(trial_division[v], tonelliNums[b].prime) == 0){
+                exponent[v][b]++;
+                trial_division[v]=exponent[v][b]/tonelliNums[b].prime;
+            }
+        }
+    }
+    
+    //look for 1's in columns 1...n
+    for(int i=0; i < trial_division.size(); i++){
+        for(int j=0; j < tonelliNumsSize; j++){
+            if(exponent[i]j] > 0){
+                cout << exponent[i]j] << " ";
+                break;
+            }
+        }
+    }
     
     
     return 0;
