@@ -9,24 +9,26 @@
 #ifndef QuadSieve_functions_h
 #define QuadSieve_functions_h
 #include <vector>
+#include "BigInteger.hh"
 
 struct tonelli_pair {
-    long long r;
-    long long p_r;
-    long long prime;
+    BigInteger r;
+    BigInteger p_r;
+    BigInteger prime;
 };
-long mod(unsigned long long a, unsigned long long b);
-long long modpow(unsigned long long base, unsigned long long exponent, unsigned long long modulus);
-long long power(long long i, long long j);
-int jacobi(long long a, long long m);
-tonelli_pair tonelli(long long a, long long p);
-void loadPrimes(long *primes);
-long ** createMatrix(long rows, long cols);
-void initialize(long ** mat, long rows, long cols);
-void destroyMatrix(long **matrix, long size);
-void printToFile(long ** matrix, long rows, long cols);
-void print(long **matrix, long rows, long cols);
-void print(std::vector<long long> matrix, long rows);
+BigInteger mod(BigInteger a, BigInteger b);
+BigInteger modpow(BigInteger base, BigInteger exponent, BigInteger modulus);
+BigInteger power(BigInteger i, BigInteger j);
+BigInteger jacobi(BigInteger a, BigInteger m);
+tonelli_pair tonelli(BigInteger a, BigInteger p);
+void loadPrimes(BigInteger *primes);
+BigInteger ** createMatrix(unsigned long rows, unsigned long cols);
+void initialize(BigInteger ** mat, unsigned long rows, unsigned long cols);
+void destroyMatrix(BigInteger **matrix, BigInteger size);
+void printToFile(BigInteger ** matrix, BigInteger rows, BigInteger cols);
+void print(BigInteger **matrix, BigInteger rows, BigInteger cols);
+void print(std::vector<tonelli_pair> pair, BigInteger size);
+void print(std::vector<BigInteger> matrix, BigInteger rows);
 
 
 #endif

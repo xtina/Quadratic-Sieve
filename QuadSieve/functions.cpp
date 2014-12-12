@@ -10,18 +10,20 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <math.h>
+#include "BigInteger.hh"
 #include "functions.h"
 
 using namespace std;
 
-long mod(unsigned long long a, unsigned long long b){
+BigInteger mod(BigInteger a, BigInteger b) {
     return (a%b+b)%b;
 }
 
 //modular exponentiation
-long long modpow(unsigned long long base, unsigned long long exponent, unsigned long long modulus) {
-    
-    unsigned long long result = 1;
+BigInteger modpow(BigInteger base, BigInteger exponent, BigInteger modulus) {
+    /*
+    BigInteger result = 1;
     
     while (exponent > 0) {
         if ((exponent & 1) == 1) {
@@ -33,30 +35,43 @@ long long modpow(unsigned long long base, unsigned long long exponent, unsigned 
         base = (base * base) % modulus;
     }
     
-    return result;
+    return result;*/
+    
+    BigInteger b = base;
+    BigInteger n = 1;
+    while (exponent != 0){
+    if(mod(exponent, 2) == 1){
+        n = mod(n*base, modulus);
+    }
+        exponent = (unsigned long)floor((exponent/BigInteger(2)).toUnsignedLong());
+        base = (base*base)%modulus;
+    }
+    
+    return n;
+    
 }
 
 //raise i to the power j
-long long power(long long i, long long j){
-    long long int temp=1;
-    for(int k=0; k<j; k++){
+BigInteger power(BigInteger i, BigInteger j){
+    BigInteger temp=1;
+    for(BigInteger k=0; k<j; k++){
         temp*=i;
     }
     return temp;
 }
 
 //jacobi symbol calculator
-int jacobi(long long a, long long m){
+BigInteger jacobi(BigInteger a, BigInteger m){
     a = mod(a,m);
-    int t = 1;
-    long c;
-    long temp;
+    BigInteger t = 1;
+    BigInteger c;
+    BigInteger temp;
     
     while(a != 0){
         c = 0;
         while(a%2 == 0){
             a /= 2;
-            c=1-c; //if c is 1, exponent is odd
+            c=BigInteger(1)-c; //if c is 1, exponent is odd
         }
         if(c == 1)
             if(m%8 == 3 || m%8 == 5)
@@ -77,11 +92,11 @@ int jacobi(long long a, long long m){
 }
 
 //tonelli
-tonelli_pair tonelli(long long a, long long p){
-    long b=1;
-    long long t = p-1;
-    long long s=0;
-    int temp;
+tonelli_pair tonelli(BigInteger a, BigInteger p){
+    BigInteger b=0;
+    BigInteger t = p-1;
+    BigInteger s=0;
+    BigInteger temp;
     tonelli_pair pair;
     
     if(jacobi(a, p)  == -1) {
@@ -91,27 +106,39 @@ tonelli_pair tonelli(long long a, long long p){
     //find quad non res
     temp = 0;
     while(temp == 1 || temp == 0){
-        temp = jacobi(b, p);
         b++;
+        temp = jacobi(b, p);
     }
     
     //pull out factors of 2
-    while(t%2 == 0){
+    while(mod(t, 2) == 0){
         t /= 2;
         s++;
     }
-    
-    long long i = 2;
-    long long c = mod(a*b*b, p);
-    for(int k=1; k < s-1; k++){
-        if(modpow(c, power(2, s-k-1)*t, p) == -1){
+    /*
+    if(s==1){
+        pair.r = modpow(a, (p+1)/4, p);
+        pair.p_r = p-modpow(a, (p+1)/4, p);
+        while (pair.p_r < 0) {
+            pair.p_r += p;
+        }
+        pair.prime = p;
+        return pair;
+    }
+    */
+    BigInteger i = 2;
+    BigInteger c = mod(a*b*b, p);
+    for(BigInteger k=1; k <= s-1; k++){
+        if(modpow(c, power(2, s-k-1)*t, p) == p-1){
             i += power(2, k);
             c = mod(c*power(b, power(2, k)), p);
         }
     }
-    pair.r = modpow(b, (i*t)/2, p)*modpow(a, (t+1)/2, p);
+
+    cout << modpow(b, (i*t)/2, p).toInt() << " " << modpow(a, (t+1)/2, p).toInt() << " " << p.toUnsignedLong() << " ";
+    pair.r = mod(modpow(b, (i*t)/2, p)*modpow(a, (t+1)/2, p), p);
     pair.p_r = p-pair.r;
-    
+    cout << pair.r.toUnsignedLong() << " ";
     while (pair.p_r < 0) {
         pair.p_r += p;
     }
@@ -120,64 +147,130 @@ tonelli_pair tonelli(long long a, long long p){
     
     return pair;
 }
+/*
 
-void loadPrimes(long *primes){
+tonelli_pair tonelli(BigInteger a, BigInteger p){
+    BigInteger s=0;
+    BigInteger i=2;
+    BigInteger temp_p;
+    BigInteger quad=1;
+    temp_p = p-1;
+    tonelli_pair pair;
+    //pull out factors of 2
+    while(temp_p%2 == 0){
+        temp_p=temp_p/2;
+        s++;
+    }
+    //Q is the remainder
+    BigInteger Q = temp_p;
+    
+    if(s == 1){
+        pair.r = modpow(a, (p+1)/4, p);
+        pair.p_r = p - pair.r;
+        pair.prime = p;
+        return pair;
+    }
+    
+    //find b
+    BigInteger z=0;
+    BigInteger k=1; //counter
+    while(quad==1 || quad==0){
+        quad=jacobi(k, p);
+        z=k;
+        k++;
+    }
+    
+    BigInteger c = power(z, Q);
+    BigInteger R = power(a, (Q+1)/2);
+    BigInteger t = power(a, Q);
+    BigInteger M = s;
+    BigInteger b;
+    
+    while(true){
+        
+        if(t%p == 1){
+            pair.r = R;
+            pair.p_r = p-R;
+            pair.prime = p;
+            return pair;
+        }
+        
+        while(modpow(t, power(2,i) ,p) != 1 && i < M){
+            i++;
+        }
+        b = modpow(c, power(2,M-i-1), p);
+        R = (R*b)%p;
+        t = (t * b* b)%p;
+        c = (b*b)%p;
+        M = i;
+    }
+    
+}
+*/
+void loadPrimes(BigInteger *primes){
     ifstream infile;
-    int prime;
+    unsigned long temp;
     int i=0;
     infile.open("/Users/Christina/Documents/QuadSieve/QuadSieve/primes.txt");
-    while (infile >> prime) {
-        primes[i++]=prime;
+    while (infile >> temp) {
+        
+        primes[i++]= BigInteger(temp);
     }
     infile.close();
 }
 
-long ** createMatrix(long rows, long cols) {
-    long **mat;
-    mat = new long*[rows];
-    for(int i = 0; i < rows; ++i) {
-        mat[i] = new long[cols];
+BigInteger ** createMatrix(unsigned long rows, unsigned long cols) {
+    BigInteger **mat;
+    mat = new BigInteger*[rows];
+    for(BigInteger i = 0; i < rows; ++i) {
+        mat[i.toInt()] = new BigInteger[cols];
     }
     return mat;
 }
 
-void initialize(long ** mat, long rows, long cols) {
-    for(int m=0; m < rows; m++)
-        for(int n=0; n < cols; n++) {
-            mat[m][n] = 0;
+void initialize(BigInteger ** mat, unsigned long rows, unsigned long cols) {
+    for(BigInteger m=0; m < rows; m++)
+        for(BigInteger n=0; n < cols; n++) {
+            mat[m.toInt()][n.toInt()] = BigInteger(1);
         }
 }
 
-void destroyMatrix(long **matrix, long size) {
-    for(int i=0; i < size; i++)
-        delete [] matrix[i];
+void destroyMatrix(BigInteger **matrix, BigInteger size) {
+    for(BigInteger i=0; i < size; i++)
+        delete [] matrix[i.toInt()];
     delete [] matrix;
 }
 
-void printToFile(long ** matrix, long rows, long cols){
+void printToFile(BigInteger ** matrix, BigInteger rows, BigInteger cols){
     ofstream out;
     out.open("trial-division-matrix.txt");
-    for(int i=0; i < rows; i++){
-        for(int j=0; j < cols; j++){
-            out << matrix[i][j] << " ";
+    for(BigInteger i=0; i < rows; i++){
+        for(BigInteger j=0; j < cols; j++){
+            out << matrix[i.toInt()][j.toInt()].toUnsignedLong() << " ";
         }
         out << endl;
     }
     out.close();
 }
 
-void print(long ** matrix, long rows, long cols){
-    for(int i=0; i < rows; i++){
-        for(int j=0; j < cols; j++){
-            cout << matrix[i][j] << " ";
+void print(BigInteger ** matrix, BigInteger rows, BigInteger cols){
+    for(BigInteger i=0; i < rows; i++){
+        for(BigInteger j=0; j < cols; j++){
+            cout << matrix[i.toInt()][j.toInt()].toUnsignedLong() << " ";
         }
         cout << endl;
     }
 }
 
-void print(vector<long long> matrix, long rows) {
-    for(int i=0; i < rows; i++) {
-        cout << matrix[i] << " ";
+void print(vector<tonelli_pair> pair, BigInteger size){
+    for(BigInteger i=0; i < size; i++){
+        cout << pair[i.toInt()].r.toLong() << " " << pair[i.toInt()].p_r.toUnsignedLong() << " " << pair[i.toInt()].prime.toUnsignedLong() << endl;
+    }
+}
+
+void print(vector<BigInteger> matrix, BigInteger rows) {
+    for(BigInteger i=0; i < rows; i++) {
+        cout << matrix[i.toInt()].toUnsignedLong() << " ";
     }
 }
 

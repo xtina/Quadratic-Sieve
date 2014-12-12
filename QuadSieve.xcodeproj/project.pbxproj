@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CFBA56AF1A38AA64009F012F /* small-test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFBA56AD1A38AA64009F012F /* small-test.cpp */; };
+		CF2F17711A3A71E000401263 /* BigInteger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CF2F176C1A3A71E000401263 /* BigInteger.cc */; };
+		CF2F17721A3A71E000401263 /* BigIntegerAlgorithms.cc in Sources */ = {isa = PBXBuildFile; fileRef = CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */; };
+		CF2F17731A3A71E000401263 /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */; };
+		CF2F17741A3A71E000401263 /* BigUnsigned.cc in Sources */ = {isa = PBXBuildFile; fileRef = CF2F176F1A3A71E000401263 /* BigUnsigned.cc */; };
+		CF2F17751A3A71E000401263 /* BigUnsignedInABase.cc in Sources */ = {isa = PBXBuildFile; fileRef = CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */; };
 		CFBA56B21A38ACC3009F012F /* functions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFBA56B11A38ACC3009F012F /* functions.cpp */; };
 		CFF6E1771A2E91FB00B6CDBE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFF6E1761A2E91FB00B6CDBE /* main.cpp */; };
 /* End PBXBuildFile section */
@@ -25,9 +29,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CF2F17681A3A71E000401263 /* BigIntegerUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigIntegerUtils.hh; sourceTree = "<group>"; };
+		CF2F17691A3A71E000401263 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigUnsigned.hh; sourceTree = "<group>"; };
+		CF2F176A1A3A71E000401263 /* BigUnsignedInABase.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigUnsignedInABase.hh; sourceTree = "<group>"; };
+		CF2F176B1A3A71E000401263 /* NumberlikeArray.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NumberlikeArray.hh; sourceTree = "<group>"; };
+		CF2F176C1A3A71E000401263 /* BigInteger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigInteger.cc; sourceTree = "<group>"; };
+		CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigIntegerAlgorithms.cc; sourceTree = "<group>"; };
+		CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigIntegerUtils.cc; sourceTree = "<group>"; };
+		CF2F176F1A3A71E000401263 /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigUnsigned.cc; sourceTree = "<group>"; };
+		CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigUnsignedInABase.cc; sourceTree = "<group>"; };
+		CF2F17761A3A721500401263 /* BigInteger.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigInteger.hh; sourceTree = "<group>"; };
+		CF2F17771A3A721600401263 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
+		CF2F17781A3A721600401263 /* BigIntegerLibrary.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigIntegerLibrary.hh; sourceTree = "<group>"; };
 		CF39015E1A33A48A00292E17 /* primes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = primes.txt; sourceTree = "<group>"; };
 		CFBA56AC1A37CED3009F012F /* snippets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snippets; sourceTree = "<group>"; };
-		CFBA56AD1A38AA64009F012F /* small-test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "small-test.cpp"; sourceTree = "<group>"; };
 		CFBA56B01A38AC34009F012F /* functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
 		CFBA56B11A38ACC3009F012F /* functions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = functions.cpp; sourceTree = "<group>"; };
 		CFF6E1731A2E91FB00B6CDBE /* QuadSieve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QuadSieve; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,10 +79,21 @@
 		CFF6E1751A2E91FB00B6CDBE /* QuadSieve */ = {
 			isa = PBXGroup;
 			children = (
+				CF2F17761A3A721500401263 /* BigInteger.hh */,
+				CF2F17771A3A721600401263 /* BigIntegerAlgorithms.hh */,
+				CF2F17781A3A721600401263 /* BigIntegerLibrary.hh */,
+				CF2F17681A3A71E000401263 /* BigIntegerUtils.hh */,
+				CF2F17691A3A71E000401263 /* BigUnsigned.hh */,
+				CF2F176A1A3A71E000401263 /* BigUnsignedInABase.hh */,
+				CF2F176B1A3A71E000401263 /* NumberlikeArray.hh */,
+				CF2F176C1A3A71E000401263 /* BigInteger.cc */,
+				CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */,
+				CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */,
+				CF2F176F1A3A71E000401263 /* BigUnsigned.cc */,
+				CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */,
 				CF39015E1A33A48A00292E17 /* primes.txt */,
 				CFF6E1761A2E91FB00B6CDBE /* main.cpp */,
 				CFBA56AC1A37CED3009F012F /* snippets */,
-				CFBA56AD1A38AA64009F012F /* small-test.cpp */,
 				CFBA56B01A38AC34009F012F /* functions.h */,
 				CFBA56B11A38ACC3009F012F /* functions.cpp */,
 			);
@@ -131,8 +157,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFF6E1771A2E91FB00B6CDBE /* main.cpp in Sources */,
+				CF2F17721A3A71E000401263 /* BigIntegerAlgorithms.cc in Sources */,
+				CF2F17751A3A71E000401263 /* BigUnsignedInABase.cc in Sources */,
+				CF2F17731A3A71E000401263 /* BigIntegerUtils.cc in Sources */,
+				CF2F17711A3A71E000401263 /* BigInteger.cc in Sources */,
 				CFBA56B21A38ACC3009F012F /* functions.cpp in Sources */,
-				CFBA56AF1A38AA64009F012F /* small-test.cpp in Sources */,
+				CF2F17741A3A71E000401263 /* BigUnsigned.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
