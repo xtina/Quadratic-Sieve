@@ -29,18 +29,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CF2F17681A3A71E000401263 /* BigIntegerUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigIntegerUtils.hh; sourceTree = "<group>"; };
-		CF2F17691A3A71E000401263 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigUnsigned.hh; sourceTree = "<group>"; };
-		CF2F176A1A3A71E000401263 /* BigUnsignedInABase.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigUnsignedInABase.hh; sourceTree = "<group>"; };
-		CF2F176B1A3A71E000401263 /* NumberlikeArray.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NumberlikeArray.hh; sourceTree = "<group>"; };
-		CF2F176C1A3A71E000401263 /* BigInteger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigInteger.cc; sourceTree = "<group>"; };
-		CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigIntegerAlgorithms.cc; sourceTree = "<group>"; };
-		CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigIntegerUtils.cc; sourceTree = "<group>"; };
-		CF2F176F1A3A71E000401263 /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigUnsigned.cc; sourceTree = "<group>"; };
-		CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigUnsignedInABase.cc; sourceTree = "<group>"; };
-		CF2F17761A3A721500401263 /* BigInteger.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigInteger.hh; sourceTree = "<group>"; };
-		CF2F17771A3A721600401263 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
-		CF2F17781A3A721600401263 /* BigIntegerLibrary.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BigIntegerLibrary.hh; sourceTree = "<group>"; };
+		CF2F17681A3A71E000401263 /* BigIntegerUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerUtils.hh; path = QuadSieve/BigIntegerUtils.hh; sourceTree = "<group>"; };
+		CF2F17691A3A71E000401263 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsigned.hh; path = QuadSieve/BigUnsigned.hh; sourceTree = "<group>"; };
+		CF2F176A1A3A71E000401263 /* BigUnsignedInABase.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsignedInABase.hh; path = QuadSieve/BigUnsignedInABase.hh; sourceTree = "<group>"; };
+		CF2F176B1A3A71E000401263 /* NumberlikeArray.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NumberlikeArray.hh; path = QuadSieve/NumberlikeArray.hh; sourceTree = "<group>"; };
+		CF2F176C1A3A71E000401263 /* BigInteger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigInteger.cc; path = QuadSieve/BigInteger.cc; sourceTree = "<group>"; };
+		CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerAlgorithms.cc; path = QuadSieve/BigIntegerAlgorithms.cc; sourceTree = "<group>"; };
+		CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerUtils.cc; path = QuadSieve/BigIntegerUtils.cc; sourceTree = "<group>"; };
+		CF2F176F1A3A71E000401263 /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsigned.cc; path = QuadSieve/BigUnsigned.cc; sourceTree = "<group>"; };
+		CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsignedInABase.cc; path = QuadSieve/BigUnsignedInABase.cc; sourceTree = "<group>"; };
+		CF2F17761A3A721500401263 /* BigInteger.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigInteger.hh; path = QuadSieve/BigInteger.hh; sourceTree = "<group>"; };
+		CF2F17771A3A721600401263 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerAlgorithms.hh; path = QuadSieve/BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
+		CF2F17781A3A721600401263 /* BigIntegerLibrary.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerLibrary.hh; path = QuadSieve/BigIntegerLibrary.hh; sourceTree = "<group>"; };
 		CF39015E1A33A48A00292E17 /* primes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = primes.txt; sourceTree = "<group>"; };
 		CFBA56AC1A37CED3009F012F /* snippets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snippets; sourceTree = "<group>"; };
 		CFBA56B01A38AC34009F012F /* functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
@@ -60,9 +60,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF2F178F1A3A831100401263 /* BigInt */ = {
+			isa = PBXGroup;
+			children = (
+				CF2F17761A3A721500401263 /* BigInteger.hh */,
+				CF2F17771A3A721600401263 /* BigIntegerAlgorithms.hh */,
+				CF2F17781A3A721600401263 /* BigIntegerLibrary.hh */,
+				CF2F17681A3A71E000401263 /* BigIntegerUtils.hh */,
+				CF2F17691A3A71E000401263 /* BigUnsigned.hh */,
+				CF2F176A1A3A71E000401263 /* BigUnsignedInABase.hh */,
+				CF2F176B1A3A71E000401263 /* NumberlikeArray.hh */,
+				CF2F176C1A3A71E000401263 /* BigInteger.cc */,
+				CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */,
+				CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */,
+				CF2F176F1A3A71E000401263 /* BigUnsigned.cc */,
+				CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */,
+			);
+			name = BigInt;
+			sourceTree = "<group>";
+		};
 		CFF6E16A1A2E91FB00B6CDBE = {
 			isa = PBXGroup;
 			children = (
+				CF2F178F1A3A831100401263 /* BigInt */,
 				CFF6E1751A2E91FB00B6CDBE /* QuadSieve */,
 				CFF6E1741A2E91FB00B6CDBE /* Products */,
 			);
@@ -79,18 +99,6 @@
 		CFF6E1751A2E91FB00B6CDBE /* QuadSieve */ = {
 			isa = PBXGroup;
 			children = (
-				CF2F17761A3A721500401263 /* BigInteger.hh */,
-				CF2F17771A3A721600401263 /* BigIntegerAlgorithms.hh */,
-				CF2F17781A3A721600401263 /* BigIntegerLibrary.hh */,
-				CF2F17681A3A71E000401263 /* BigIntegerUtils.hh */,
-				CF2F17691A3A71E000401263 /* BigUnsigned.hh */,
-				CF2F176A1A3A71E000401263 /* BigUnsignedInABase.hh */,
-				CF2F176B1A3A71E000401263 /* NumberlikeArray.hh */,
-				CF2F176C1A3A71E000401263 /* BigInteger.cc */,
-				CF2F176D1A3A71E000401263 /* BigIntegerAlgorithms.cc */,
-				CF2F176E1A3A71E000401263 /* BigIntegerUtils.cc */,
-				CF2F176F1A3A71E000401263 /* BigUnsigned.cc */,
-				CF2F17701A3A71E000401263 /* BigUnsignedInABase.cc */,
 				CF39015E1A33A48A00292E17 /* primes.txt */,
 				CFF6E1761A2E91FB00B6CDBE /* main.cpp */,
 				CFBA56AC1A37CED3009F012F /* snippets */,
@@ -248,6 +256,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "./**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Users/Christina/Documents/QuadSieve/**";
 			};
 			name = Debug;
 		};
@@ -256,6 +265,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "./**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Users/Christina/Documents/QuadSieve/**";
 			};
 			name = Release;
 		};

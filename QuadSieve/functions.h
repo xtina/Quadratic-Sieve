@@ -29,6 +29,7 @@ void printToFile(BigInteger ** matrix, BigInteger rows, BigInteger cols);
 void print(BigInteger **matrix, BigInteger rows, BigInteger cols);
 void print(std::vector<tonelli_pair> pair, BigInteger size);
 void print(std::vector<BigInteger> matrix, BigInteger rows);
+void print(BigInteger *matrix, int num);
 
 
 #endif
