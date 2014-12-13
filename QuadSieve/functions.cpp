@@ -16,143 +16,7 @@
 
 using namespace std;
 
-template<typename MatrixType> struct matrix_traits {
-    typedef typename MatrixType::index_type index_type;
-    typedef typename MatrixType::value_typ value_type;
-    static index_type min_row(MatrixType const &A) {
-        return A.min_row();
-    }
-    static index_type max_row(MatrixType const &A) {
-        return A.max_row();
-    }
-    static index_type min_column(MatrixType const &A) {
-        return A.min_column();
-    }
-    static index_type max_column(MatrixType const &A) {
-        return A.max_column();
-    }
-    static value_type &element(MatrixType &A, index_type i, index_type k) {
-        return A(i, k);
-    }
-    static value_type element(MatrixType const &A, index_type i, index_type k) {
-        return A(i, k);
-    }
-};
 
-// specialization of the matrix traits for built-in two-dimensional
-// arrays
-template<typename T, std::size_t rows, std::size_t columns>
-struct matrix_traits<T[rows][columns]> {
-    typedef std::size_t index_type;
-    typedef T value_type;
-    static index_type min_row(T const (&)[rows][columns]) {
-        return 0;
-    }
-    static index_type max_row(T const (&)[rows][columns]) {
-        return rows - 1;
-    }
-    static index_type min_column(T const (&)[rows][columns]) {
-        return 0;
-    }
-    static index_type max_column(T const (&)[rows][columns]) {
-        return columns - 1;
-    }
-    static value_type &element(T (&A)[rows][columns],
-                               index_type i, index_type k) {
-        return A[i][k];
-    }
-    static value_type element(T const (&A)[rows][columns],
-                              index_type i, index_type k) {
-        return A[i][k];
-    }
-};
-
-// Swap rows i and k of a matrix A
-// Note that due to the reference, both dimensions are preserved for
-// built-in arrays
-template<typename MatrixType>
-void swap_rows(MatrixType &A,
-               typename matrix_traits<MatrixType>::index_type i,
-               typename matrix_traits<MatrixType>::index_type k) {
-    matrix_traits<MatrixType> mt;
-    typedef typename matrix_traits<MatrixType>::index_type index_type;
-    
-    // check indices
-    assert(mt.min_row(A) <= i);
-    assert(i <= mt.max_row(A));
-    
-    assert(mt.min_row(A) <= k);
-    assert(k <= mt.max_row(A));
-    
-    for (index_type col = mt.min_column(A); col <= mt.max_column(A); ++col)
-        std::swap(mt.element(A, i, col), mt.element(A, k, col));
-}
-
-// divide row i of matrix A by v
-template<typename MatrixType>
-void divide_row(MatrixType &A,
-                typename matrix_traits<MatrixType>::index_type i,
-                typename matrix_traits<MatrixType>::value_type v) {
-    matrix_traits<MatrixType> mt;
-    typedef typename matrix_traits<MatrixType>::index_type index_type;
-    
-    assert(mt.min_row(A) <= i);
-    assert(i <= mt.max_row(A));
-    
-    assert(v != 0);
-    
-    for (index_type col = mt.min_column(A); col <= mt.max_column(A); ++col)
-        mt.element(A, i, col) /= v;
-}
-
-// in matrix A, add v times row k to row i
-template<typename MatrixType>
-void add_multiple_row(MatrixType &A,
-                      typename matrix_traits<MatrixType>::index_type i,
-                      typename matrix_traits<MatrixType>::index_type k,
-                      typename matrix_traits<MatrixType>::value_type v) {
-    matrix_traits<MatrixType> mt;
-    typedef typename matrix_traits<MatrixType>::index_type index_type;
-    
-    assert(mt.min_row(A) <= i);
-    assert(i <= mt.max_row(A));
-    
-    assert(mt.min_row(A) <= k);
-    assert(k <= mt.max_row(A));
-    
-    for (index_type col = mt.min_column(A); col <= mt.max_column(A); ++col)
-        mt.element(A, i, col) += v * mt.element(A, k, col);
-}
-
-// convert A to reduced row echelon form
-template<typename MatrixType>
-void to_reduced_row_echelon_form(MatrixType &A) {
-    matrix_traits<MatrixType> mt;
-    typedef typename matrix_traits<MatrixType>::index_type index_type;
-    
-    index_type lead = mt.min_row(A);
-    
-    for (index_type row = mt.min_row(A); row <= mt.max_row(A); ++row) {
-        if (lead > mt.max_column(A))
-            return;
-        index_type i = row;
-        while (mt.element(A, i, lead) == 0) {
-            ++i;
-            if (i > mt.max_row(A)) {
-                i = row;
-                ++lead;
-                if (lead > mt.max_column(A))
-                    return;
-            }
-        }
-        swap_rows(A, i, row);
-        divide_row(A, row, mt.element(A, row, lead));
-        for (i = mt.min_row(A); i <= mt.max_row(A); ++i) {
-            if (i != row)
-                add_multiple_row(A, i, row, -mt.element(A, i, lead));
-        }
-    }
-}
 
 
 BigInteger mod(BigInteger a, BigInteger b) {
@@ -273,66 +137,7 @@ tonelli_pair tonelli(BigInteger a, BigInteger p) {
     pair.prime = p;
     return pair;
 }
-/*
- 
- tonelli_pair tonelli(BigInteger a, BigInteger p){
- BigInteger s=0;
- BigInteger i=2;
- BigInteger temp_p;
- BigInteger quad=1;
- temp_p = p-1;
- tonelli_pair pair;
- //pull out factors of 2
- while(temp_p%2 == 0){
- temp_p=temp_p/2;
- s++;
- }
- //Q is the remainder
- BigInteger Q = temp_p;
- 
- if(s == 1){
- pair.r = modpow(a, (p+1)/4, p);
- pair.p_r = p - pair.r;
- pair.prime = p;
- return pair;
- }
- 
- //find b
- BigInteger z=0;
- BigInteger k=1; //counter
- while(quad==1 || quad==0){
- quad=jacobi(k, p);
- z=k;
- k++;
- }
- 
- BigInteger c = power(z, Q);
- BigInteger R = power(a, (Q+1)/2);
- BigInteger t = power(a, Q);
- BigInteger M = s;
- BigInteger b;
- 
- while(true){
- 
- if(t%p == 1){
- pair.r = R;
- pair.p_r = p-R;
- pair.prime = p;
- return pair;
- }
- 
- while(modpow(t, power(2,i) ,p) != 1 && i < M){
- i++;
- }
- b = modpow(c, power(2,M-i-1), p);
- R = (R*b)%p;
- t = (t * b* b)%p;
- c = (b*b)%p;
- M = i;
- }
- 
- }
- */
+
 void loadPrimes(BigInteger *primes) {
     ifstream infile;
     unsigned long temp;
@@ -382,7 +187,7 @@ void printToFile(BigInteger **matrix, BigInteger rows, BigInteger cols) {
 void print(BigInteger **matrix, BigInteger rows, BigInteger cols) {
     for (BigInteger i = 0; i < rows; i++) {
         for (BigInteger j = 0; j < cols; j++) {
-            cout << matrix[i.toInt()][j.toInt()].toUnsignedLong() << " ";
+            cout << matrix[i.toInt()][j.toInt()].toLong() << " ";
         }
         cout << endl;
     }
@@ -396,7 +201,7 @@ void print(vector<tonelli_pair> pair, BigInteger size) {
 
 void print(BigInteger *matrix, int num) {
     for (int i = 0; i < num; i++) {
-        cout << matrix[i].toUnsignedLong() << " ";
+        cout << matrix[i].toLong() << " ";
     }
 }
 

@@ -10,17 +10,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QuadSieve/main.cpp"
-            timestampString = "440054548.513961"
+            timestampString = "440093686.032597"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-<<<<<<< BigInt
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "main(int argc, const char * argv[])"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "to_reduced_row_echelon_form(BigInteger **A, BigInteger rows, BigInteger cols)"
             landmarkType = "7">
-=======
-            startingLineNumber = "64"
-            endingLineNumber = "64">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuadSieve/main.cpp"
+            timestampString = "440095014.816429"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "to_reduced_row_echelon_form(BigInteger **A, BigInteger rows, BigInteger cols)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,11 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QuadSieve/main.cpp"
-            timestampString = "439939847.112715"
+            timestampString = "440094391.961923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59">
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "to_reduced_row_echelon_form(BigInteger **A, BigInteger rows, BigInteger cols)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -44,12 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QuadSieve/main.cpp"
-            timestampString = "439939847.112715"
+            timestampString = "440095014.816429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31">
->>>>>>> local
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "to_reduced_row_echelon_form(BigInteger **A, BigInteger rows, BigInteger cols)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
