@@ -16,30 +16,12 @@
 
 using namespace std;
 
-
-
-
 BigInteger mod(BigInteger a, BigInteger b) {
     return (a % b + b) % b;
 }
 
 //modular exponentiation
 BigInteger modpow(BigInteger base, BigInteger exponent, BigInteger modulus) {
-    /*
-     BigInteger result = 1;
-     
-     while (exponent > 0) {
-     if ((exponent & 1) == 1) {
-     // multiply in this bit's contribution while using modulus to keep result small
-     result = (result * base) % modulus;
-     }
-     // move to the next bit of the exponent, square (and mod) the base accordingly
-     exponent >>= 1;
-     base = (base * base) % modulus;
-     }
-     
-     return result;*/
-    
     BigInteger b = base;
     BigInteger n = 1;
     while (exponent != 0) {
@@ -159,6 +141,15 @@ BigInteger **createMatrix(unsigned long rows, unsigned long cols) {
     return mat;
 }
 
+int ** intMatrix(unsigned long rows, unsigned long cols) {
+    int **mat;
+    mat = new int*[rows];
+    for (int i = 0; i < rows; ++i) {
+        mat[i] = new int[cols];
+    }
+    return mat;
+}
+
 void initialize(BigInteger **mat, unsigned long rows, unsigned long cols) {
     for (BigInteger m = 0; m < rows; m++)
         for (BigInteger n = 0; n < cols; n++) {
@@ -166,7 +157,25 @@ void initialize(BigInteger **mat, unsigned long rows, unsigned long cols) {
         }
 }
 
+void initialize(int **mat, unsigned long rows, unsigned long cols) {
+    for (unsigned long m = 0; m < rows; m++)
+        for (unsigned long n = 0; n < cols; n++) {
+            mat[m][n] = 0;
+        }
+}
+
+void initialize(int *mat, unsigned long rows) {
+    for (unsigned long m = 0; m < rows; m++)
+            mat[m] = 0;
+}
+
 void destroyMatrix(BigInteger **matrix, BigInteger size) {
+    for (BigInteger i = 0; i < size; i++)
+        delete [] matrix[i.toInt()];
+    delete [] matrix;
+}
+
+void destroyMatrix(int **matrix, unsigned long size) {
     for (BigInteger i = 0; i < size; i++)
         delete [] matrix[i.toInt()];
     delete [] matrix;
@@ -205,8 +214,109 @@ void print(BigInteger *matrix, int num) {
     }
 }
 
+void print(int **mat, unsigned long rows, unsigned long cols) {
+    for(int i=0; i < rows; i++){
+        for(int j=0; j < cols; j++) {
+            cout << mat[i][j];
+        }
+        cout << endl;
+    }
+}
+
 void print(vector<BigInteger> matrix, BigInteger rows) {
     for (BigInteger i = 0; i < rows; i++) {
         cout << matrix[i.toInt()].toLong() << " ";
     }
+}
+
+// Swap rows i and k of a matrix A
+// Note that due to the reference, both dimensions are preserved for
+// built-in arrays
+void swap_rows(int **A, unsigned long i, unsigned long k, unsigned long size) {
+    
+    // check indices
+    for (unsigned long col = 0; col < size; ++col) {
+        std::swap(A[i][col], A[k][col]);
+    }
+}
+
+// convert A to reduced row echelon form
+void to_reduced_row_echelon_form(int **A, unsigned long rows, unsigned long cols) {
+    
+
+    unsigned long lead = 0;
+    
+    for (unsigned long j = 0;j < rows; ++j) {
+        unsigned long i = j;
+        while (A[i][lead] == 0 || A[i][lead]%2 == 0) {
+            ++i;
+            if (i > rows-1) {
+                i = j;
+                ++lead;
+                if (lead > cols)
+                    return;
+            }
+        }
+        
+        if(i != j) //if they're not the same row, swap them
+            swap_rows(A, i, j, cols);
+        
+        for (unsigned long k = j+1; k < rows; k++) {
+            if(A[k][lead]%2 == 1 && A[k][lead] != 0) { //add rows w/ leading 1 together
+                for(int a=0; a < cols; a++) {
+//                    A[k][a] = (A[k][a] + A[j][a])%2;
+                    A[k][a] = A[k][a] + A[j][a];
+                }
+            }
+        }
+    }
+}
+
+
+//add row b to row a
+void addRows(int* a, int* b, unsigned long i) {
+    for(unsigned long j=0; j< i; j++) {
+        a[j] += b[j];
+    }
+}
+
+//copy b into a
+void copyMatrix(int** a, int**b, unsigned long rows, unsigned long cols) {
+    for(int i=0; i < rows; i++){
+        for(int j=0; j < cols; j++) {
+            a[i][j] = b[i][j];
+        }
+    }
+}
+
+BigInteger findZeroRow(int ** mat, unsigned long rows, unsigned long cols, unsigned long startIndex) {
+    unsigned long j=0;
+    for(unsigned long i=startIndex; i < rows; i++){
+        while(j < cols) { 
+            if (mat[i][j]%2 == 1)
+                break;
+            j++;
+        }
+        if(j == cols)
+            return i;
+        j=0;
+    }
+    cout << "no zero row found" << endl;
+    return -1;
+}
+
+BigInteger gcd(BigInteger a, BigInteger b){
+    if(a==0 && b==0){
+        std::cout << "a and b cannot both be 0" << std::endl;
+        return 0;
+    }
+    BigInteger temp;
+    while (b != 0) {
+        temp = b;
+        b = a%b;
+        a=temp;
+    }
+    if(a < 0)
+        a *=-1;
+    return a;
 }

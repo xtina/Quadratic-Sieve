@@ -12,85 +12,22 @@
 #include <vector>
 #include <math.h>
 #include "BigInteger.hh"
+#include "BigIntegerAlgorithms.hh"
 #include "functions.h"
 using namespace std;
-const BigInteger n = 87463;
-const long long long_n = 87463;
-
-// Swap rows i and k of a matrix A
-// Note that due to the reference, both dimensions are preserved for
-// built-in arrays
-void swap_rows(BigInteger **A,
-               BigInteger i,
-               BigInteger k, BigInteger size) {
-    
-    // check indices
-    BigInteger temp;
-    for (BigInteger col = 0; col <= size; ++col) {
-        std::swap(A[i.toUnsignedLong()][col.toUnsignedLong()], A[k.toUnsignedLong()][col.toUnsignedLong()]);
-    }
-}
-
-// divide row i of matrix A by v
-void divide_row(BigInteger ** A,
-                BigInteger i,
-                BigInteger v, BigInteger size) {
-    
-    for (BigInteger col = 0; col <= size; ++col)
-        A[i.toUnsignedLong()][col.toUnsignedLong()] /= v;
-}
-
-// in matrix A, add v times row k to row i
-void add_multiple_row(BigInteger **A,
-                      BigInteger i,
-                      BigInteger k,
-                      BigInteger v, BigInteger size) {
-    
-    for (BigInteger col = 0; col <= size; ++col)
-        A[i.toUnsignedLong()][col.toUnsignedLong()] += v * A[k.toUnsignedLong()][col.toUnsignedLong()];
-}
-
-// convert A to reduced row echelon form
-void to_reduced_row_echelon_form(BigInteger **A, BigInteger rows, BigInteger cols) {
-    
-    BigInteger lead = 0;
-    
-    for (BigInteger j = 0;j <= rows; ++j) {
-        if (lead > cols)
-            return;
-        BigInteger i = j;
-        while (A[i.toLong()][lead.toLong()] == 0) {
-            ++i;
-            if (i > rows) {
-                i = j;
-                ++lead;
-                if (lead > cols)
-                    return;
-            }
-        }
-        swap_rows(A, i, j, cols);
-        divide_row(A, j, A[j.toLong()][lead.toLong()], cols); cout << endl;
-        for (BigInteger i = 0; i < rows; ++i) {
-            cout << "lead: " << lead.toInt() << " " << A[i.toLong()][lead.toLong()].toLong()*(-1) << endl;
-            if (i != j) {
-                add_multiple_row(A, i, j, A[i.toLong()][lead.toLong()].negative, cols);
-                cout << "after: "; print(A[i.toInt()], cols.toInt()); cout << endl;;
-            }
-        }
-        cout << endl; print(A[j.toInt()], cols.toInt()); cout << endl;
-    }
-}
+const BigInteger n = 4999486012441;//13592675504123;
+const long long long_n = 4999486012441;//13592675504123;
+const BigInteger M=5000;
+const BigInteger numOfPrimes=28;
 
 
 int main(int argc, const char * argv[]) {
-    
-//    BigInteger n = 13592675504123;
 
     BigInteger primes[18383];
     vector<BigInteger> quadPrimes; //primes that are quad res of my prime
     vector<tonelli_pair> tonelliNums; //tonelli numbers of factor base
    
-    BigInteger M=30;
+    
     tonelli_pair temp;
     BigInteger sr;
     BigInteger length = BigInteger(2)*M;
@@ -98,12 +35,12 @@ int main(int argc, const char * argv[]) {
     loadPrimes(primes);
     
     //find quad res n mod p
-    BigInteger numOfPrimes=0;
+    BigInteger cnt=0;
     quadPrimes.push_back(2);
-    for(BigInteger i=1; i < 18383 && numOfPrimes < 5; i++){ //skip 2
+    for(BigInteger i=1; i < 18383 && cnt < numOfPrimes; i++){ //skip 2
         if(jacobi(n,primes[i.toInt()])==1){
             quadPrimes.push_back(primes[i.toInt()]);
-            numOfPrimes++;
+            cnt++;
         }
     }
     //print(quadPrimes, quadPrimes.size());
@@ -116,26 +53,22 @@ int main(int argc, const char * argv[]) {
     }
 
     //print(tonelliNums, tonelliNums.size());
-    BigInteger x;
-
-    BigInteger **gaussian;
+    BigInteger gassian_temp, prime_temp, neg;
+    BigInteger **matrix;
     BigInteger tonelliNumsSize = tonelliNums.size();
-    gaussian = createMatrix(length.toInt(), tonelliNumsSize.toInt());
-    initialize(gaussian, length.toInt(), tonelliNumsSize.toInt());
+    matrix = createMatrix(length.toInt(), tonelliNumsSize.toInt());
+    initialize(matrix, length.toInt(), tonelliNumsSize.toInt());
     
+    //begin sieving
     sr = BigInteger((unsigned long)floor(sqrt(long_n)));
-    //cout << sr.toLong() << endl << endl;
     
     for(int k=0; BigInteger(k) < length; k++) {
         for(int l=0; BigInteger(l) < tonelliNumsSize; l++){
             
-            x=mod(sr-M+k, tonelliNums[l].prime);
-            
-            if(x==mod(tonelliNums[l].r, tonelliNums[l].prime)) {
-                gaussian[k][l] += (long)floor(0.5+log(tonelliNums[l].prime.toUnsignedLong()));
-            }
-            else if(x==mod(tonelliNums[l].p_r, tonelliNums[l].prime)) {
-                gaussian[k][l] += (long)floor(0.5+log(tonelliNums[l].prime.toUnsignedLong()));
+            gassian_temp=mod(sr-M+k, tonelliNums[l].prime);
+
+            if(gassian_temp==tonelliNums[l].r || gassian_temp==tonelliNums[l].p_r) {
+                matrix[k][l] += (long)floor(0.5+log(tonelliNums[l].prime.toUnsignedLong()));
             }
         }
     }
@@ -144,14 +77,13 @@ int main(int argc, const char * argv[]) {
     //find rows with value > .5*log(n)+log(M) - TlogB
     BigInteger temp_gaussian=0;
     BigInteger negative = BigInteger(-1);
-    unsigned long limit = .5*log(long_n)+log(M.toLong())-1.5*log(tonelliNums[tonelliNumsSize.toInt()-1].prime.toInt());
+    unsigned long limit = .5*log(long_n)+log(M.toLong())-1.5*log(tonelliNums[tonelliNumsSize.toUnsignedLong()-1].prime.toUnsignedLong());
     vector<BigInteger> trial_division;
     for(BigInteger m=0; m < length; m++){
         for(BigInteger n=0; n < tonelliNumsSize; n++) {
-            temp_gaussian += gaussian[m.toInt()][n.toInt()];
+            temp_gaussian += matrix[m.toInt()][n.toInt()];
         }
         if (temp_gaussian >= limit) {
-            
             trial_division.push_back(sr-M+m);
             //trial_division.push_back(M*negative+m);
         }
@@ -160,48 +92,86 @@ int main(int argc, const char * argv[]) {
     //print(trial_division, trial_division.size()); cout << endl << endl;
     
     //trial division
-    BigInteger ** exponent = createMatrix(trial_division.size(), tonelliNumsSize.toInt());
-    initialize(exponent, trial_division.size(), tonelliNumsSize.toInt());
-    BigInteger **factorMe = createMatrix(trial_division.size(), tonelliNumsSize.toInt());
-    int counter=0;
-    BigInteger r, lala;
-    for(BigInteger v=0; v < trial_division.size(); v++) {
-        lala = trial_division[v.toInt()];
-        r = trial_division[v.toInt()]*trial_division[v.toInt()]-n;
-        for(BigInteger b=0; b < tonelliNumsSize && r != 1 && r!= -1; b++){
-            while(r%tonelliNums[b.toInt()].prime == 0){
-                if(exponent[v.toInt()][b.toInt()] == 1)
-                    exponent[v.toInt()][b.toInt()]=0;
-                else
-                    exponent[v.toInt()][b.toInt()] = 1;
-                r /= tonelliNums[b.toInt()].prime;
+    unsigned long rows = trial_division.size();
+    unsigned long cols = tonelliNumsSize.toUnsignedLong();
+    
+    int ** exponent = intMatrix(rows, 2*cols); //twice as many columns for identity matrix
+    initialize(exponent, rows, 2*cols); //initialize array to 0
+    int **factored = intMatrix(rows, 2*cols);
+    initialize(factored, rows, 2*cols);
+    unsigned long counter=0;
+    vector<BigInteger> fullyFactored;
+    BigInteger r; unsigned long curI;
+    for(int v=0; v < rows; v++) {
+        curI = (trial_division[v]-sr+M).toUnsignedLong();
+        r = trial_division[v]*trial_division[v]-n;
+        for(int b=0; b < cols && r != 1 && r!= -1; b++){ //while r isn't fully factored...
+            while(r%tonelliNums[b].prime == 0){
+                exponent[v][b]++;
+                r /= tonelliNums[b].prime;
             }
         }
         if(r == 1 || r == -1){
-            //cout << lala.toUnsignedLong() << " " << (lala-sr+M).toLong() << endl;
-            factorMe[counter] = exponent[v.toInt()];
-            counter++;//cout << (lala-M).toLong() << " ";
+            factored[counter] = exponent[v];
+            factored[counter][cols+counter] = 1; //adding identity matrix
+            fullyFactored.push_back(trial_division[v]);
+            cout << (trial_division[v]-sr+M).toUnsignedLong() << " ";
+            counter++;
         }
     }
-//    cout << counter << endl;
-    for(unsigned long i=trial_division.size()-counter; i < trial_division.size(); i ++){
-        delete [] factorMe[i];
+
+//    destroyMatrix(exponent, rows);
+    for(unsigned long i=rows-counter; i < rows; i++){ //delete unnecessary rows
+        delete [] factored[i];
     }
-    print(factorMe, counter, tonelliNumsSize);
-    cout << endl << endl;
-    to_reduced_row_echelon_form(factorMe, counter, tonelliNumsSize.toInt());
-    print(factorMe, counter, tonelliNumsSize);
-    /*
-    //look for 1's in columns 1...n
-    for(BigInteger i=0; i < trial_division.size(); i++){
-        for(BigInteger j=0; j < tonelliNumsSize; j++){
-            if(exponent[i][j] > 0){
-                cout << exponent[i][j] << " ";
-                break;
+    
+    rows=counter;
+    //print(factored, counter, 2*cols);
+    int ** row_reduced = intMatrix(rows, 2*cols); //copy matrix into another to be row reduced
+    copyMatrix(row_reduced, factored, counter, 2*cols);
+    cout << endl;
+    to_reduced_row_echelon_form(row_reduced, counter, 2*cols);
+    print(row_reduced, counter, 2*cols);
+    cout << endl;
+    
+    //find zero row
+    BigInteger x=1, y=1, result, zeroRow;
+    int *ex = new int[cols];
+    unsigned long startRow =0;
+    initialize(ex, cols);
+    while(true) {
+        zeroRow = findZeroRow(row_reduced, rows, cols, startRow);
+        if(zeroRow == -1) {
+            return 0;
+        }
+        //calculate x
+        for(unsigned long i=cols; i < 2*cols; i++) {
+            if(row_reduced[zeroRow.toUnsignedLong()][i] == 1) {
+                x *= fullyFactored[i-cols] % n;
             }
         }
+        
+        //calculate y
+        for(unsigned long i=cols; i < 2*cols; i++) {
+            if(row_reduced[zeroRow.toUnsignedLong()][i] == 1) {
+                addRows(ex, factored[i-cols], cols);
+            }
+            else
+                ex[i] = 0;
+        }
+
+        for(int i=0; i < cols; i++)
+            y *= power(tonelliNums[i].prime, ex[i]/2);
+        result=gcd(x-y, n);
+        if(result != 1 && result != 0)
+            break;
+        startRow=zeroRow.toUnsignedLong()+1;
+        if(zeroRow > rows) {
+            cout << "factorization not found" << endl;
+            break;
+        }
     }
-*/
+    cout << result.toUnsignedLong();
     
     return 0;
 }

@@ -1,6 +1,0 @@
-Where I put useful little code snippets I might want later
-
-cout << "(m: " << m-M << " n: " << tonelliNums[n].prime << " log: " << gaussian[m][n] << ") ";
-
-
-
