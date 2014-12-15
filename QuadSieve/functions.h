@@ -31,17 +31,18 @@ void print(BigInteger **matrix, BigInteger rows, BigInteger cols);
 void print(std::vector<tonelli_pair> pair, BigInteger size);
 void print(std::vector<BigInteger> matrix, BigInteger rows);
 void print(BigInteger *matrix, int num);
-int ** intMatrix(unsigned long rows, unsigned long cols);
-void initialize(int **mat, unsigned long rows, unsigned long cols);
-void initialize(int *mat, unsigned long rows);
-void print(int **mat, unsigned long rows, unsigned long cols);
-void destroyMatrix(int **matrix, unsigned long size);
-void swap_rows(int **A, unsigned long i, unsigned long k, unsigned long size);
-void to_reduced_row_echelon_form(int **A, unsigned long rows, unsigned long cols);
-BigInteger findZeroRow(int ** mat, unsigned long rows, unsigned long cols, unsigned long startIndex=0);
-void addRows(int* a, int* b, unsigned long i);
-void copyMatrix(int** a, int**b, unsigned long rows, unsigned long cols);
-BigInteger gcd(BigInteger a, BigInteger b);
+long long ** intMatrix(unsigned long rows, unsigned long cols);
+void initialize(long long **mat, unsigned long rows, unsigned long cols);
+void initialize(long long *mat, unsigned long rows);
+void initialize(BigInteger ** a, unsigned long b, unsigned long c);
+void print(long long **mat, unsigned long rows, unsigned long cols);
+void destroyMatrix(long long **matrix, unsigned long size);
+void swap_rows(long long **A, unsigned long i, unsigned long k, unsigned long size);
+void to_reduced_row_echelon_form(long long **A, unsigned long rows, unsigned long cols);
+BigInteger findZeroRow(long long ** mat, unsigned long rows, unsigned long cols, unsigned long startIndex=0);
+void addRows(long long * a, long long *b, unsigned long i);
+void copyMatrix(long long ** a, long long ** b, unsigned long rows, unsigned long cols);
+BigInteger gcd1(BigInteger a, BigInteger b);
 
 
 #endif

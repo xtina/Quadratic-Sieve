@@ -12,13 +12,13 @@
 #include <vector>
 #include <math.h>
 #include "BigInteger.hh"
-#include "BigIntegerAlgorithms.hh"
 #include "functions.h"
+
 using namespace std;
-const BigInteger n = 4999486012441;//13592675504123;
-const long long long_n = 4999486012441;//13592675504123;
-const BigInteger M=5000;
-const BigInteger numOfPrimes=28;
+const BigInteger n = 13592675504123;
+const long long long_n = 13592675504123;
+const BigInteger M=10000;
+const BigInteger numOfPrimes=50;
 
 
 int main(int argc, const char * argv[]) {
@@ -95,9 +95,9 @@ int main(int argc, const char * argv[]) {
     unsigned long rows = trial_division.size();
     unsigned long cols = tonelliNumsSize.toUnsignedLong();
     
-    int ** exponent = intMatrix(rows, 2*cols); //twice as many columns for identity matrix
+    long long ** exponent = intMatrix(rows, 2*cols); //twice as many columns for identity matrix
     initialize(exponent, rows, 2*cols); //initialize array to 0
-    int **factored = intMatrix(rows, 2*cols);
+    long long **factored = intMatrix(rows, 2*cols);
     initialize(factored, rows, 2*cols);
     unsigned long counter=0;
     vector<BigInteger> fullyFactored;
@@ -127,16 +127,16 @@ int main(int argc, const char * argv[]) {
     
     rows=counter;
     //print(factored, counter, 2*cols);
-    int ** row_reduced = intMatrix(rows, 2*cols); //copy matrix into another to be row reduced
+    long long ** row_reduced = intMatrix(rows, 2*cols); //copy matrix into another to be row reduced
     copyMatrix(row_reduced, factored, counter, 2*cols);
     cout << endl;
     to_reduced_row_echelon_form(row_reduced, counter, 2*cols);
-    print(row_reduced, counter, 2*cols);
+    //print(row_reduced, counter, 2*cols);
     cout << endl;
     
     //find zero row
     BigInteger x=1, y=1, result, zeroRow;
-    int *ex = new int[cols];
+    long long *ex = new long long[cols];
     unsigned long startRow =0;
     initialize(ex, cols);
     while(true) {
@@ -161,9 +161,9 @@ int main(int argc, const char * argv[]) {
         }
 
         for(int i=0; i < cols; i++)
-            y *= power(tonelliNums[i].prime, ex[i]/2);
-        result=gcd(x-y, n);
-        if(result != 1 && result != 0)
+            y *= power(tonelliNums[i].prime, (long)ex[i]/2);
+        result=gcd1(x-y, n);
+        if(result != 1 && result != 0 && result != n)
             break;
         startRow=zeroRow.toUnsignedLong()+1;
         if(zeroRow > rows) {

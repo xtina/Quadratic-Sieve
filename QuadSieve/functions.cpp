@@ -141,27 +141,41 @@ BigInteger **createMatrix(unsigned long rows, unsigned long cols) {
     return mat;
 }
 
-int ** intMatrix(unsigned long rows, unsigned long cols) {
-    int **mat;
-    mat = new int*[rows];
+long long ** intMatrix(unsigned long rows, unsigned long cols) {
+    long long **mat;
+    mat = new long long *[rows];
     for (int i = 0; i < rows; ++i) {
-        mat[i] = new int[cols];
+        mat[i] = new long long[cols];
     }
     return mat;
 }
 
-void initialize(BigInteger **mat, unsigned long rows, unsigned long cols) {
+void initialize(long **mat, unsigned long rows, unsigned long cols) {
     for (BigInteger m = 0; m < rows; m++)
         for (BigInteger n = 0; n < cols; n++) {
             mat[m.toInt()][n.toInt()] = 0;
         }
 }
 
-void initialize(int **mat, unsigned long rows, unsigned long cols) {
-    for (unsigned long m = 0; m < rows; m++)
-        for (unsigned long n = 0; n < cols; n++) {
-            mat[m][n] = 0;
+void initialize(BigInteger ** a, unsigned long b, unsigned long c) {
+    for(int i=0; i < b; i++) {
+        for(int j=0; j < c; j++) {
+            a[i][j] = 0;
         }
+    }
+}
+
+void initialize(long long *mat, unsigned long rows) {
+    for (unsigned long m = 0; m < rows; m++)
+            mat[m] = 0;
+}
+
+void initialize(long long **mat, unsigned long a, unsigned long b) {
+    for(int i=0; i<a; i++) {
+        for(int j=0; j<b; j++) {
+            mat[i][j] = 0;
+        }
+    }
 }
 
 void initialize(int *mat, unsigned long rows) {
@@ -175,7 +189,7 @@ void destroyMatrix(BigInteger **matrix, BigInteger size) {
     delete [] matrix;
 }
 
-void destroyMatrix(int **matrix, unsigned long size) {
+void destroyMatrix(long long **matrix, unsigned long size) {
     for (BigInteger i = 0; i < size; i++)
         delete [] matrix[i.toInt()];
     delete [] matrix;
@@ -214,7 +228,7 @@ void print(BigInteger *matrix, int num) {
     }
 }
 
-void print(int **mat, unsigned long rows, unsigned long cols) {
+void print(long long **mat, unsigned long rows, unsigned long cols) {
     for(int i=0; i < rows; i++){
         for(int j=0; j < cols; j++) {
             cout << mat[i][j];
@@ -232,7 +246,7 @@ void print(vector<BigInteger> matrix, BigInteger rows) {
 // Swap rows i and k of a matrix A
 // Note that due to the reference, both dimensions are preserved for
 // built-in arrays
-void swap_rows(int **A, unsigned long i, unsigned long k, unsigned long size) {
+void swap_rows(long long **A, unsigned long i, unsigned long k, unsigned long size) {
     
     // check indices
     for (unsigned long col = 0; col < size; ++col) {
@@ -241,7 +255,7 @@ void swap_rows(int **A, unsigned long i, unsigned long k, unsigned long size) {
 }
 
 // convert A to reduced row echelon form
-void to_reduced_row_echelon_form(int **A, unsigned long rows, unsigned long cols) {
+void to_reduced_row_echelon_form(long long **A, unsigned long rows, unsigned long cols) {
     
 
     unsigned long lead = 0;
@@ -274,14 +288,14 @@ void to_reduced_row_echelon_form(int **A, unsigned long rows, unsigned long cols
 
 
 //add row b to row a
-void addRows(int* a, int* b, unsigned long i) {
+void addRows(long long* a, long long * b, unsigned long i) {
     for(unsigned long j=0; j< i; j++) {
         a[j] += b[j];
     }
 }
 
 //copy b into a
-void copyMatrix(int** a, int**b, unsigned long rows, unsigned long cols) {
+void copyMatrix(long long ** a, long long **b, unsigned long rows, unsigned long cols) {
     for(int i=0; i < rows; i++){
         for(int j=0; j < cols; j++) {
             a[i][j] = b[i][j];
@@ -289,7 +303,7 @@ void copyMatrix(int** a, int**b, unsigned long rows, unsigned long cols) {
     }
 }
 
-BigInteger findZeroRow(int ** mat, unsigned long rows, unsigned long cols, unsigned long startIndex) {
+BigInteger findZeroRow(long long ** mat, unsigned long rows, unsigned long cols, unsigned long startIndex) {
     unsigned long j=0;
     for(unsigned long i=startIndex; i < rows; i++){
         while(j < cols) { 
@@ -305,7 +319,7 @@ BigInteger findZeroRow(int ** mat, unsigned long rows, unsigned long cols, unsig
     return -1;
 }
 
-BigInteger gcd(BigInteger a, BigInteger b){
+BigInteger gcd1(BigInteger a, BigInteger b){
     if(a==0 && b==0){
         std::cout << "a and b cannot both be 0" << std::endl;
         return 0;
